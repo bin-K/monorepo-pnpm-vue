@@ -696,3 +696,216 @@ pnpm add lint-staged -D -w
 	}
 }
 ```
+
+### 创建项目
+
+#### .npmrc
+
+```
+# 注释：三方依赖也有依赖，要是项目中使用了第三方的依赖，
+# 要是哪天第三方卸载不在该包了，那就找不到了，称之为“幽灵依赖” ，
+# 所以需要“羞耻提升”，暴露到外层中，即在根目录下的node_modules内，而非在.pnpm文件夹中。
+
+ shamefully-hoist = true
+
+# 根目录下的node_modules里，vue安装到了与.pnpm同层级位置当中了，
+# 这就是shamefully-hoist = true的效果，把vue从.pnpm内提到node_modules中，
+# 并且vue的相关依赖，也拍平到了该层级文件夹中。
+```
+
+#### 创建shared
+
+- shared项目用来服务其他多个web项目，提供公共方法、组件、样式等等
+
+#### 项目全局安装 vue
+
+```shell
+ # -w的意思是，workspace-root把依赖包安装到工作目录的根路径下，
+ # 则根目录下会生成node_modules文件夹。可以共用，后续每个项目需要用到vue的
+ # 都直接从根目录node_modules里取。
+ pnpm add vue -w
+```
+
+#### 在 packages 项目下创建 vue 项目
+
+- 执行创建命令，根据提示选择
+
+```shell
+ pnpm create vite
+```
+
+- 删除 vue @vitejs/plugin-vue vite vue-tsc typescript 等依赖，安装到全局中
+
+```shell
+ # 子项目下执行
+ pnpm remove vue
+ pnpm remove @vitejs/plugin-vue vite vue-tsc typescript -D
+ # 根目录下执行
+ pnpm add @vitejs/plugin-vue vite vue-tsc typescript -D -w
+```
+
+- 运行项目
+
+```shell
+ # 子项目下运行
+ pnpm dev
+```
+
+### 配置全局指令
+
+```json
+{
+	"script": {
+		"dev:project": "cd packages/vite-project & pnpm dev"
+		// pnpm -C packages/vue-config-1 & pnpm dev 亦可
+	}
+}
+```
+
+### 引用 shared 内容
+
+- 加入 tsconfig.json 来配置路径
+
+```shell
+# 根目录下
+pnpm add typescript -D -w
+pnpm tsc --init
+```
+
+- 配置
+
+```json
+{
+	"compilerOptions": {
+		"outDir": "dist", // 输出的目录
+		"sourceMap": true, //采用sourcemap
+		"target": "es2016", // 目标语法
+		"module": "esnext", // 模块格式
+		"moduleResolution": "node", // 模块解析
+		"strict": false, // 严格模式
+		"resolveJsonModule": true, // 解析json模块
+		"esModuleInterop": true, // 允许通过es6语法引入commonjs模块
+		"jsx": "preserve", // jsx不转义
+		"lib": ["esnext", "dom"], // 支持的类库esnext及dom
+		"baseUrl": ".", // 当前是以该路径进行查找
+		"paths": {
+			"@monorepo/shared/components": ["packages/shared/components"],
+			"@monorepo/shared/utils": ["packages/shared/utils"],
+			"@monorepo/shared/fetch": ["packages/shared/fetch"],
+			"@monorepo/shared/styles": ["packages/shared/styles"],
+			// 或者用*号处理匹配
+			"@monorepo/shared/*": ["packages/shared/*"]
+		}
+	}
+}
+```
+
+#### 建立关联
+
+```shell
+# 指定版本号
+pnpm add @monorepo/shared@workspace --filter @monorepo/vite-project
+
+```
+
+#### 打包插件
+
+- 安装 minimist esbuild
+
+```shell
+pnpm add minimist esbuild -D -w
+```
+
+- 新增 打包脚本
+
+```js
+// minimist 可以解析命令行参数，非常好用，功能简单
+import minimist from 'minimist'
+// 打包模块
+import { build } from 'esbuild'
+// node 中的内置模块
+import path from 'path'
+import fs from 'fs'
+const __dirname = path.resolve()
+const args = minimist(process.argv.slice(2))
+const target = args._[0]
+const format = args.f || 'global'
+const entry = path.resolve(__dirname, `./packages/plugins/${target}/src/index.ts`)
+/*  iife 立即执行函数(function(){})()
+    cjs node中的模块 module.exports
+    esm 浏览器中的esModule模块 import */
+const outputFormat = format.startsWith('global') ? 'iife' : format === 'cjs' ? 'cjs' : 'esm'
+const outfile = path.resolve(__dirname, `./packages/plugins/${target}/dist/${target}.${format}.js`)
+const pkaPath = path.resolve(__dirname, `./packages/plugins/${target}/package.json`)
+const pkaOps = JSON.parse(fs.readFileSync(pkaPath, 'utf8'))
+const packageName = pkaOps.buildOptions?.name
+build({
+	entryPoints: [entry],
+	outfile,
+	bundle: true,
+	sourcemap: true,
+	format: outputFormat,
+	globalName: packageName,
+	platform: format === 'cjs' ? 'node' : 'browser',
+}).then(() => {
+	console.log('watching~~~')
+})
+```
+
+- 配置 plugins package.json
+
+```json
+{
+	"name": "@monorepo/common",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	// 打包会用到, 用于定义全局变量
+	"buildOptions": {
+		"name": "common"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"@monorepo/shared": "workspace:^"
+	}
+}
+```
+
+- 配置并执行打包命令
+
+```json
+{
+	"scripts": {
+		"dev:common": "node scripts/dev-plugins.js common -f global"
+	}
+}
+```
+
+```shell
+pnpm dev:common
+```
+
+- 测试使用
+
+```html
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script src="./common.global.js"></script>
+		<script>
+			const { testFunc } = common
+			console.log(testFunc())
+		</script>
+	</body>
+</html>
+```
