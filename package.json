@@ -2,18 +2,21 @@
 	"name": "monorepo-pnpm-vue",
 	"version": "1.0.1",
 	"description": "",
+	"type": "module",
 	"main": "index.js",
 	"scripts": {
 		"init": "sh ./scripts/shell/init.sh --all",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"prepare": "husky",
-		"lint-staged": "lint-staged"
+		"lint-staged": "lint-staged",
+		"dev:common": "node scripts/dev-plugins.js common -f global",
+		"dev:project": "cd packages/vite-project & pnpm dev"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"lint-staged": {
-		"src/**/*.{js,jsx,ts,tsx,vue}": [
+		"**/*.{js,jsx,ts,tsx,vue}": [
 			"eslint --ext .js,.jsx,.vue,.ts,.tsx --fix --quiet ./"
 		]
 	},
@@ -35,18 +38,21 @@
 		"packages/*"
 	],
 	"dependencies": {
-		"cross-env": "^7.0.3"
+		"cross-env": "^7.0.3",
+		"vue": "^3.4.21"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^19.1.0",
 		"@commitlint/config-conventional": "^19.1.0",
 		"@typescript-eslint/eslint-plugin": "^7.2.0",
 		"@typescript-eslint/parser": "^7.2.0",
+		"@vitejs/plugin-vue": "^5.0.4",
 		"commitizen": "^4.3.0",
 		"commitlint-config-monorepo": "^2.0.2",
 		"conventional-changelog-cli": "^2.2.2",
 		"conventional-changelog-custom-config": "^0.3.1",
 		"cz-lerna-changelog": "^2.0.3",
+		"esbuild": "^0.20.1",
 		"eslint": "^8.57.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-config-standard": "^17.1.0",
@@ -59,6 +65,11 @@
 		"husky": "^9.0.11",
 		"lerna": "^3.22.1",
 		"lint-staged": "^15.2.2",
-		"prettier": "^3.2.5"
+		"minimist": "^1.2.8",
+		"prettier": "^3.2.5",
+		"sass": "^1.71.1",
+		"typescript": "^5.4.2",
+		"vite": "^5.1.6",
+		"vue-tsc": "^2.0.6"
 	}
 }
