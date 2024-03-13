@@ -1,0 +1,42 @@
+{
+  "name": "monorepo-pnpm-vue",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "init": "sh ./scripts/shell/init.sh --all",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bin-K/monorepo-pnpm-vue.git"
+  },
+  "changelog": {
+    "bugsUrl": "https://github.com/bin-K/monorepo-pnpm-vue/",
+    "authorName": true,
+    "authorEmail": false
+  },
+  "config": {
+    "commitizen": {
+      "path": "./scripts/changelog/cz-lerna-changelog.cjs"
+    }
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {
+    "cross-env": "^7.0.3"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.1.0",
+    "@commitlint/config-conventional": "^19.1.0",
+    "commitizen": "^4.3.0",
+    "conventional-changelog-cli": "^2.2.2",
+    "conventional-changelog-custom-config": "^0.3.1",
+    "cz-lerna-changelog": "^2.0.3",
+    "lerna": "^3.22.1"
+  }
+}
