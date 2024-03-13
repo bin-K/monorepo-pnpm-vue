@@ -6,11 +6,12 @@
 	"main": "index.js",
 	"scripts": {
 		"init": "sh ./scripts/shell/init.sh --all",
+		"serve": "node ./scripts/build/build.cjs",
+		"build": "node ./scripts/build/build.cjs --production",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"prepare": "husky",
 		"lint-staged": "lint-staged",
-		"dev:common": "node scripts/dev-plugins.js common -f global",
-		"dev:project": "cd packages/vite-project & pnpm dev"
+		"dev:common": "node scripts/dev-plugins.js common -f global"
 	},
 	"keywords": [],
 	"author": "",
@@ -38,7 +39,9 @@
 		"packages/*"
 	],
 	"dependencies": {
+		"commander": "^12.0.0",
 		"cross-env": "^7.0.3",
+		"enquirer": "^2.4.1",
 		"vue": "^3.4.21"
 	},
 	"devDependencies": {

@@ -47,6 +47,7 @@ module.exports = defineConfig({
 			},
 		],
 		'no-tabs': 'off',
+		'no-new': 'off',
 		indent: 'off',
 		'vue/custom-event-name-casing': 'off',
 		'vue/html-indent': 'off',
