@@ -1,6 +1,6 @@
 {
 	"name": "monorepo-pnpm-vue",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "",
 	"type": "module",
 	"main": "index.js",
@@ -10,15 +10,16 @@
 		"build": "node ./scripts/build/build.cjs --production",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"prepare": "husky",
+		"lint": "eslint --ext .js,.jsx,.vue,.ts,.tsx ./",
 		"lint-staged": "lint-staged",
-		"dev:common": "node scripts/dev-plugins.js common -f global"
+		"dev:common": "node scripts/dev-plugins.ts common -f global"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"lint-staged": {
 		"**/*.{js,jsx,ts,tsx,vue}": [
-			"eslint --ext .js,.jsx,.vue,.ts,.tsx --fix --quiet ./"
+			"pnpm lint"
 		]
 	},
 	"repository": {
@@ -52,6 +53,7 @@
 		"@vitejs/plugin-vue": "^5.0.4",
 		"commitizen": "^4.3.0",
 		"commitlint-config-monorepo": "^2.0.2",
+		"compare-func": "^2.0.0",
 		"conventional-changelog-cli": "^2.2.2",
 		"conventional-changelog-custom-config": "^0.3.1",
 		"cz-lerna-changelog": "^2.0.3",

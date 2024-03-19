@@ -1,3 +1,12 @@
+### v1.0.2
+#### 2024-03-19 15:42:56 +0800
+
+### Features
+
+* **mono:** 项目细节调整  ([e89cd5c](https://github.com/bin-K/monorepo-pnpm-vue/commit/e89cd5c)) by: **kuangzhibin**
+
+---
+
 ### v1.0.1
 #### 2024-03-13 15:29:13 +0800
 

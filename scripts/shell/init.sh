@@ -3,11 +3,6 @@
 # 初始化项目配置
 SCRIPTPATH=$(pwd -P)
 
-for file in `find . -name "*.sample" ! -path "./.git/*"`; do
-    newfile=$(echo $file | sed 's/\.sample$//')
-    cp $file $newfile && echo "copy $newfile"
-done
-
 # 初始化git设置
 git config core.filemode false
 git config tag.sort version:refname
