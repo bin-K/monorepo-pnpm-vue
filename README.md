@@ -27,8 +27,7 @@
   git flow release start release/1.0.0
   ```
 
-  - 测试无问题， 合并前执行yarn release 命令，输出提交日志，合并到develop分支和mian/master分支，输入版本信息
-  - 输出提交日志使用的是standard-version，此时已经进行打版，git flow release finish -n中 -n配置跳过打版
+  - 测试无问题， 执行git flow release finish 1.0.0 ，输出提交日志，合并到develop分支和mian/master分支，输入版本信息
 
   ```shell
   # -m tag提交信息
