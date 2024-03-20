@@ -160,6 +160,7 @@ fi
   - 具体参考：https://github.com/jaspernbrouwer/git-flow-hooks/blob/master/filter-flow-hotfix-finish-tag-message
 
 - filter-flow-hotfix-finish-tag-message.sh, filter-flow-release-finish-tag-message.sh
+- 为保证CHANGELOG正常写入，release的命名格式为xxx-tagname，tagname和提交时的scope保持一致
 
 ```shell
 #!/usr/bin/env bash
@@ -246,6 +247,8 @@ module.exports = {
 	extends: ['monorepo'],
 	rules: {
 		'header-max-length': [0, 'always'],
+		// scope 不允许为空，保证CHANGELOG正常写入，release的命名格式为xxx-tagname，tagname和scope保持一致
+		'scope-empty': [2, 'never'],
 		'scope-enum': [2, 'always', [...fs.readdirSync(path.join(__dirname, 'packages')), 'mono']],
 		'type-enum': [2, 'always', ['build', 'ci', 'chore', 'feat', 'fix', 'refactor', 'style', 'test', 'config', 'docs']],
 		'close-issue-needed': [2, 'always'],
