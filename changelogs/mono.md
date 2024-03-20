@@ -1,3 +1,12 @@
+### v1.0.3
+#### 2024-03-20 22:27:29 +0800
+
+### Features
+
+* **mono:** commitlint修改  ([941eab6](https://github.com/bin-K/monorepo-pnpm-vue/commit/941eab6)) by: **Kuangzhibin**
+
+---
+
 ### v1.0.2
 #### 2024-03-19 15:42:56 +0800
 
