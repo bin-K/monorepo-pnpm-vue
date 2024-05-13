@@ -34,7 +34,7 @@ class BuildCore extends core {
 		process.env.PACKAGE = this._argument[0]
 		process.env.NODE_ENV = isProduction ? 'production' : 'development'
 		const args = isProduction ? ['build'] : ['dev']
-		const clinetPath = path.resolve(__dirname, `../../packages/${process.env.PACKAGE}/`)
+		const clinetPath = path.resolve(__dirname, `../../packages/${process.env.PACKAGE}/client`)
 		try {
 			const clientSpawnInstance = spawn('pnpm', ['-C', clinetPath, args], {
 				stdio: 'inherit',

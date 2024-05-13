@@ -1,0 +1,14 @@
+{
+	"name": "@vite-project/client",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "vue-tsc && vite build",
+		"preview": "vite preview"
+	},
+	"dependencies": {
+		"@monorepo/shared": "workspace:^"
+	}
+}
