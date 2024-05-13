@@ -1,3 +1,12 @@
+### v1.0.4
+#### 2024-05-13 11:56:52 +0800
+
+### Features
+
+* **mono:** 调整项目结构  ([2e2382b](https://github.com/bin-K/monorepo-pnpm-vue/commit/2e2382b)) by: **kuangzhibin**
+
+---
+
 ### v1.0.3
 #### 2024-03-20 22:27:29 +0800
 
