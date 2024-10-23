@@ -1,3 +1,12 @@
+### v1.0.5
+#### 2024-10-24 00:31:50 +0800
+
+### Documentation
+
+* **mono:** 调整文档  ([b6c2aef](https://github.com/bin-K/monorepo-pnpm-vue/commit/b6c2aef)) by: **KuangZhiBin**
+
+---
+
 ### v1.0.4
 #### 2024-05-13 11:56:52 +0800
 
