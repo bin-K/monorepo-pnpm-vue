@@ -523,7 +523,7 @@ pnpm run lint-staged
 
 ### 配置eslint和prettier
 
-#### eslint 配置
+#### eslint 配置(当前配置只适合eslint8,eslint9的配置方式做了较大改动)
 
 - 安装依赖包
 
@@ -537,7 +537,7 @@ pnpm run lint-staged
 # @typescript-eslint/parser 解析器
 # @typescript-eslint/eslint-plugin  ts语法的配置
 # eslint-define-config eslint-define-config可以帮助我们做语法提示
-pnpm add eslint eslint-config-standard eslint-plugin-import eslint-plugin-node eslint-plugin-promise eslint-plugin-vue @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-define-config -D -w
+pnpm add eslint@^8 eslint-config-standard eslint-plugin-import eslint-plugin-node eslint-plugin-promise eslint-plugin-vue @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-define-config -D -w
 ```
 
 - 根目录下创建.eslintrc.cjs、.eslintignore文件
